@@ -1,6 +1,8 @@
 # ChatStack
 ChatStack stacks chat messages with a nice format automatically to make a large number of the same messages easier to read.
 
+![Image](git/my_image_very_cool_btw.png)
+
 ## Features
 - Message Stacking
 - Stacked message numbering

@@ -8,6 +8,7 @@
     "betterclient"
   ],
   "contact": {},
+  "icon": "assets/icon.png",
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
@@ -20,7 +21,6 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "fabric": "*",
     "minecraft": "${minecraft_version}"
   }
 }
