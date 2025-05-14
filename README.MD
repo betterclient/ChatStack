@@ -1,0 +1,28 @@
+# ChatStack
+ChatStack stacks chat messages with a nice format automatically to make a large number of the same messages easier to read.
+
+## Features
+- Message Stacking
+- Stacked message numbering
+- Stacked count coloring
+
+## Supported Versions
+| Version | Supported |
+|---------|-----------|
+| 1.21.x  | ❌         |
+| 1.21.1  | ✅         |
+| 1.21    | ✅         |
+| 1.20.x  | ❌         |
+| 1.19.x  | ❌         |
+| 1.18.x  | ❌         |
+| 1.17.x  | ❌         |
+| 1.16.x  | ❌         |
+
+*All versions here are planned to be supported.*
+
+# Installation
+- Install fabric for any supported version
+- Put the mod in your mods folder.
+
+# License
+This mod is licensed under the MIT License. See the LICENSE file for more details.
