@@ -11,9 +11,7 @@ ChatStack stacks chat messages with a nice format automatically to make a large 
 ## Supported Versions
 | Version | Supported |
 |---------|-----------|
-| 1.21.x  | ❌         |
-| 1.21.1  | ✅         |
-| 1.21    | ✅         |
+| 1.21.x  | ✅         |
 | 1.20.x  | ❌         |
 | 1.19.x  | ❌         |
 | 1.18.x  | ❌         |

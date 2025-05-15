@@ -36,16 +36,16 @@ public class MixinChatHud {
         currMessage = chatStack.messages.get(message.content().toString());
         finalOut = null;
         if (currMessage != null) {
-            visibleMessages.removeAll(currMessage.instances());
-            currMessage.instances().clear();
+            visibleMessages.removeAll(currMessage.getInstances());
+            currMessage.getInstances().clear();
             Style color = getColor();
 
             finalOut = currMessage
-                    .messageOriginal()
+                    .getOriginalMessage()
                     .copy()
                     .append(" ")
                     .append(Text.literal("[").fillStyle(color))
-                    .append(currMessage.count().incrementAndGet() + "x")
+                    .append(currMessage.getCount().incrementAndGet() + "x")
                     .append(Text.literal("]").fillStyle(color));
         } else {
             currMessage = new RepeatingMessage(message.content().copy(), new ArrayList<>(), new AtomicInteger(1));
@@ -55,7 +55,7 @@ public class MixinChatHud {
 
     @Unique
     private Style getColor() {
-        int i = currMessage.count().get();
+        int i = currMessage.getCount().get();
         Style color;
         if (i >= 1 && i <= 30) {
             color = GREEN_COLOR_STYLE;
@@ -79,7 +79,7 @@ public class MixinChatHud {
     @Redirect(method = "addVisibleMessage", at = @At(value = "NEW", target = "(ILnet/minecraft/text/OrderedText;Lnet/minecraft/client/gui/hud/MessageIndicator;Z)Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;"))
     public ChatHudLine.Visible chatstack$createOrderedText(int i, OrderedText orderedText, MessageIndicator messageIndicator, boolean bl) {
         ChatHudLine.Visible visible = new ChatHudLine.Visible(i, orderedText, messageIndicator, bl);
-        currMessage.instances().add(visible);
+        currMessage.getInstances().add(visible);
         return visible;
     }
 }
