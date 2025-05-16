@@ -1,4 +1,4 @@
-package io.github.betterclient.chatstack.mixin;
+package io.github.betterclient.chatstack.mixin.v213;
 
 import io.github.betterclient.chatstack.ChatStack;
 import io.github.betterclient.chatstack.RepeatingMessage;
@@ -32,16 +32,23 @@ public class MixinChatHud {
     @Unique private final Style YELLOW_COLOR_STYLE = Style.EMPTY.withColor(Formatting.YELLOW);
 
     @Inject(method = "addVisibleMessage", at = @At("HEAD"))
+    @SuppressWarnings("SuspiciousMethodCalls") //not sus. shhhhhh!
     public void chatstack$addVisibleMessage(ChatHudLine message, CallbackInfo ci) {
         currMessage = chatStack.messages.get(message.content().toString());
         finalOut = null;
         if (currMessage != null) {
             visibleMessages.removeAll(currMessage.getInstances());
             currMessage.getInstances().clear();
-            Style color = getColor();
 
-            finalOut = currMessage
-                    .getOriginalMessage()
+            Style color = chatStack.getColor(
+                    currMessage.getCount().get(),
+                    RED_COLOR_STYLE,
+                    YELLOW_COLOR_STYLE,
+                    GREEN_COLOR_STYLE
+            );
+
+            finalOut = ((MutableText) (currMessage
+                    .getOriginalMessage()))
                     .copy()
                     .append(" ")
                     .append(Text.literal("[").fillStyle(color))
@@ -51,20 +58,6 @@ public class MixinChatHud {
             currMessage = new RepeatingMessage(message.content().copy(), new ArrayList<>(), new AtomicInteger(1));
             chatStack.messages.put(message.content().toString(), currMessage);
         }
-    }
-
-    @Unique
-    private Style getColor() {
-        int i = currMessage.getCount().get();
-        Style color;
-        if (i >= 1 && i <= 30) {
-            color = GREEN_COLOR_STYLE;
-        } else if (i > 30 && i <= 70) {
-            color = YELLOW_COLOR_STYLE;
-        } else {
-            color = RED_COLOR_STYLE;
-        }
-        return color;
     }
 
     @ModifyArg(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/ChatMessages;breakRenderedChatMessageLines(Lnet/minecraft/text/StringVisitable;ILnet/minecraft/client/font/TextRenderer;)Ljava/util/List;"), index = 0)

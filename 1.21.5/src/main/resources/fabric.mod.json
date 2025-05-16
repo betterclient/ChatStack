@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "ChatStack",
+  "description": "Chat message stacking - ${minecraft_version} subproject",
+  "authors": [
+    "betterclient"
+  ],
+  "contact": {},
+  "icon": "assets/icon.png",
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {},
+  "mixins": [
+    "${minecraft_version}.mixins.json"
+  ],
+  "depends": {
+    "minecraft": "*"
+  }
+}

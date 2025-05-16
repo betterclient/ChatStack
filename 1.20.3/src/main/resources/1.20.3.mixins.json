@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.betterclient.chatstack.mixin",
+  "package": "io.github.betterclient.chatstack.mixin.v203",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
   ],
@@ -10,5 +10,6 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "plugin": "io.github.betterclient.chatstack.ChatStackVersionMixinPlugin"
 }

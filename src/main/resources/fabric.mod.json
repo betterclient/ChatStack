@@ -16,11 +16,9 @@
       "io.github.betterclient.chatstack.ChatStack"
     ]
   },
-  "mixins": [
-    "chatstack.mixins.json"
-  ],
+  "mixins": [],
   "depends": {
     "fabricloader": "*",
-    "minecraft": ">=1.21"
+    "minecraft": ">=1.20"
   }
 }

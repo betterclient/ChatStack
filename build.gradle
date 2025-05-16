@@ -2,37 +2,112 @@ plugins {
     id 'fabric-loom' version '1.10-SNAPSHOT'
 }
 
-version = project.mod_version
-group = project.maven_group
+subprojects {
+    group = 'io.github.betterclient'
+    version = '1.0.0'
+
+    apply plugin: 'fabric-loom'
+
+    repositories {
+        mavenCentral()
+    }
+
+    loom {
+        runConfigs.configureEach {
+            if(it.name == "server") {
+                ideConfigGenerated = false
+            } else {
+                ideConfigGenerated = true
+                client()
+            }
+        }
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+        modImplementation "net.fabricmc:fabric-loader:0.16.14"
+        implementation(parent) {
+            transitive = false
+        }
+    }
+
+    def targetJavaVersion = Integer.valueOf(project.java_version)
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = "UTF-8"
+        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+            it.options.release.set(targetJavaVersion)
+        }
+    }
+
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+    }
+
+    processResources {
+        inputs.property "version", version
+        inputs.property "id", "chatstack-${project.minecraft_version.replace(".", "-")}"
+        inputs.property "minecraft_version", project.minecraft_version
+        filteringCharset "UTF-8"
+
+        filesMatching("fabric.mod.json") {
+            expand "version": version,
+                    "id": "chatstack-${project.minecraft_version.replace(".", "-")}",
+                    "minecraft_version": project.minecraft_version
+        }
+    }
+}
+
+allprojects {
+    loom {
+        mixin {
+            useLegacyMixinAp = true
+            defaultRefmapName = "chatstack-${project.name}.refmap.json"
+        }
+    }
+}
+
+version = "1.0.0"
+group = "io.github.betterclient"
 
 base {
-    archivesName = project.archives_base_name
+    archivesName = "ChatStack"
 }
 
 repositories {}
 
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
+loom {
+    runConfigs.configureEach {
+        ideConfigGenerated = false
     }
 }
 
-def targetJavaVersion = 21
+dependencies {
+    //NEVER USE MC IN THE BASE PROJECT!!
+    //ONLY HERE SO INCLUDE(SUBPROJECT) WORKS
+    minecraft "com.mojang:minecraft:1.21.1"
+    mappings "net.fabricmc:yarn:1.21.1+build.3:v2"
+
+    modImplementation "net.fabricmc:fabric-loader:0.16.14"
+
+    rootProject.subprojects.each {
+        include(it)
+    }
+}
+
+processResources {
+    inputs.property "version", version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": version
+    }
+}
+
+def targetJavaVersion = 8
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
