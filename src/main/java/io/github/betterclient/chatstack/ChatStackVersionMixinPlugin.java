@@ -30,6 +30,12 @@ public class ChatStackVersionMixinPlugin implements IMixinConfigPlugin {
         String minecraftVer = FabricLoader.getInstance().getModContainer("minecraft").orElseThrow(NullPointerException::new).getMetadata().getVersion().getFriendlyString();
         //System.out.println("Expected " + minecraftVer + " but found: " + versionWithDots);
         //"Expected 1.21.3 but found: 1.21.2"
+
+        if ("1.16.3-combat.8.c".equals(minecraftVer) && version.equals("cts")) {
+            //i aint typing allat
+            return true;
+        }
+
         return versionWithDots.equals(minecraftVer);
     }
 

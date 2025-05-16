@@ -12,13 +12,11 @@ ChatStack stacks chat messages with a nice format automatically to make a large 
 | Version | Supported |
 |---------|-----------|
 | 1.21.x  | ✅         |
-| 1.20.x  | ❌         |
-| 1.19.x  | ❌         |
-| 1.18.x  | ❌         |
-| 1.17.x  | ❌         |
-| 1.16.x  | ❌         |
-
-*All versions here are planned to be supported.*
+| 1.20.x  | ✅         |
+| 1.19.x  | ✅         |
+| 1.18.x  | ✅         |
+| 1.17.x  | ✅         |
+| 1.16.x  | ✅         |
 
 # Installation
 - Install fabric for any supported version

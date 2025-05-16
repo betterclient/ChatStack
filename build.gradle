@@ -4,8 +4,11 @@ plugins {
 
 subprojects {
     group = 'io.github.betterclient'
-    version = '1.0.0'
+    version = '1.1.0'
 
+    if(project.rootProject == project.parent) {
+        return
+    }
     apply plugin: 'fabric-loom'
 
     repositories {
@@ -27,7 +30,7 @@ subprojects {
         minecraft "com.mojang:minecraft:${project.minecraft_version}"
         mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
         modImplementation "net.fabricmc:fabric-loader:0.16.14"
-        implementation(parent) {
+        implementation(rootProject) {
             transitive = false
         }
     }
@@ -70,7 +73,7 @@ allprojects {
     }
 }
 
-version = "1.0.0"
+version = "1.1.0"
 group = "io.github.betterclient"
 
 base {
@@ -94,7 +97,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:0.16.14"
 
     rootProject.subprojects.each {
-        include(it)
+        if (it.rootProject != it.parent) {
+            include(it)
+        }
     }
 }
 
